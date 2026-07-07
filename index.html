@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reisdashboard zomer 2026</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root{
+      --bg:#f7f2e8; --ink:#1f2428; --muted:#6f6b63; --card:#fffaf0; --line:#e9dcc7;
+      --sun:#f7b733; --blue:#62a8d8; --green:#80b36b; --pink:#d66d75; --dark:#263238;
+      --shadow:0 18px 50px rgba(50,38,20,.14); --radius:24px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;color:var(--ink);background:radial-gradient(circle at top left,#fff7d5 0,#f7f2e8 34%,#eef5f7 100%);}
+    header{padding:34px 18px 18px}.wrap{width:min(1120px,calc(100% - 32px));margin:0 auto}.hero{border-radius:32px;background:linear-gradient(130deg,rgba(255,255,255,.92),rgba(255,248,225,.78));box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:1.2fr .8fr;min-height:340px}.hero-copy{padding:38px}.eyebrow{display:inline-flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-weight:700;color:#8a5d00}.hero h1{font-size:clamp(2.2rem,7vw,5.2rem);line-height:.9;margin:20px 0 14px;letter-spacing:-.07em}.hero p{font-size:1.12rem;line-height:1.55;color:var(--muted);max-width:58ch}.hero-img{min-height:320px;background-image:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.2)),url('https://commons.wikimedia.org/wiki/Special:FilePath/Chambord%20Castle%20Northwest%20facade.jpg');background-size:cover;background-position:center;position:relative}.badge{position:absolute;right:18px;bottom:18px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-radius:18px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.16);font-weight:800}.nav{position:sticky;top:0;z-index:50;background:rgba(247,242,232,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.06)}.nav .wrap{display:flex;gap:10px;overflow:auto;padding:10px 0}.nav a{text-decoration:none;color:var(--dark);font-weight:800;white-space:nowrap;background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:999px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 26px}.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 8px 22px rgba(45,35,17,.06)}.stat b{display:block;font-size:1.5rem}.section{padding:30px 0}.section h2{font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.045em;margin:0 0 18px}.timeline{display:grid;gap:18px}.day{display:grid;grid-template-columns:190px 1fr;gap:18px;background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:0 12px 34px rgba(40,28,10,.08)}.date{border-radius:18px;padding:18px;background:#222;color:#fff;min-height:160px;display:flex;flex-direction:column;justify-content:space-between}.date .big{font-size:3rem;font-weight:950;line-height:.9}.date .month{text-transform:uppercase;letter-spacing:.12em;color:#f7d680;font-weight:800}.day-content{display:grid;grid-template-columns:1fr 320px;gap:18px}.day h3{font-size:1.55rem;margin:4px 0 8px}.route{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:#fff;border:1px solid var(--line);padding:8px 12px;font-weight:800}.note{background:#fff7dd;border-left:5px solid var(--sun);padding:12px 14px;border-radius:14px;color:#5e4d20}.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}.mini{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.mini h4{margin:0 0 5px}.photo{border-radius:18px;overflow:hidden;min-height:220px;background:#ddd}.photo img{width:100%;height:100%;object-fit:cover;display:block}.tips{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.tip{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 10px 26px rgba(55,40,20,.06)}.tip .emoji{font-size:2rem}.tip h3{margin:8px 0 4px}.mapbox{background:#fff;border:1px solid var(--line);padding:12px;border-radius:var(--radius);box-shadow:var(--shadow)}#map{height:520px;border-radius:18px}.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.legend span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-weight:700}.sleep{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.sleep-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px}.sleep-card h3{margin:0 0 8px}.todo{display:grid;grid-template-columns:1fr 1fr;gap:18px}.box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px}ul{padding-left:20px}li{margin:7px 0}.small{font-size:.88rem;color:var(--muted)}
+.progress-panel{margin:18px 0 26px;background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 12px 34px rgba(40,28,10,.08)}.progress-head{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}.progress-title{font-size:1.35rem;font-weight:950}.progress-track{height:16px;background:#eadfcd;border-radius:999px;overflow:hidden;margin:14px 0 10px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#80b36b,#f7b733);border-radius:999px;transition:width .45s ease}.progress-days{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.progress-day{border:1px solid var(--line);background:#fff;border-radius:16px;padding:10px;font-weight:850}.progress-day.done{background:#ecf8ee;border-color:#bcdcbc}.progress-day.today{background:#fff5cf;border-color:#f3c74a}.weather-pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:#eef8ff;border:1px solid #cce5f5;padding:8px 12px;font-weight:900;color:#245d78}.weather-pill.loading{opacity:.72}.day-status{display:inline-flex;margin-top:10px;border-radius:999px;background:#fff;border:1px solid var(--line);padding:8px 11px;font-weight:900;color:#263238}.leaflet-div-icon.route-marker{background:transparent;border:0}.marker-dot{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:#fff;border:3px solid #263238;box-shadow:0 4px 14px rgba(0,0,0,.22);font-size:17px}.marker-dot.visited{border-color:#3f8d4a;background:#ecf8ee}.marker-dot.active{border-color:#f7b733;background:#fff5cf}.mapbox .map-note{margin-top:10px;color:var(--muted);font-size:.92rem}
+
+.input-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}.field{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.field label{display:block;font-weight:900;margin-bottom:8px}.field input,.field textarea,.field select{width:100%;border:1px solid #dfd1bd;border-radius:14px;padding:11px 12px;font:inherit;background:#fffdf8;color:var(--ink)}.field textarea{min-height:96px;resize:vertical}.save-hint{display:inline-flex;gap:8px;align-items:center;background:#ecf8ee;border:1px solid #cfe7d4;color:#2e6938;border-radius:999px;padding:8px 12px;font-weight:800}.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.btn{border:0;border-radius:999px;background:#222;color:#fff;font-weight:900;padding:11px 15px;cursor:pointer}.btn.secondary{background:#fff;color:#222;border:1px solid var(--line)}.kids-board{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.kid-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 10px 26px rgba(55,40,20,.06)}.kid-card h3{margin:0 0 10px}.stars{display:flex;gap:7px;flex-wrap:wrap}.stars button{border:1px solid var(--line);background:#fff8df;border-radius:999px;padding:7px 10px;cursor:pointer;font-weight:900}.stars button.active{background:#f7d680}.edit-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#fff;border:1px solid var(--line);padding:8px 11px;font-weight:800;margin:3px 4px 3px 0}.checkline{display:flex;gap:10px;align-items:flex-start;margin:9px 0}.checkline input{margin-top:5px}@media(max-width:880px){.kids-board,.input-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.kids-board,.input-grid{grid-template-columns:1fr}}
+footer{padding:30px 0 50px;color:var(--muted)}a{color:#0b658f}@media(max-width:880px){.hero,.day,.day-content,.sleep,.todo{grid-template-columns:1fr}.grid,.tips{grid-template-columns:repeat(2,1fr)}.hero-copy{padding:26px}.date{min-height:auto}.photo{min-height:190px}}@media(max-width:560px){.wrap{width:min(100% - 20px,1120px)}.grid,.tips,.cards{grid-template-columns:1fr}.hero h1{font-size:3.2rem}.day{padding:10px}#map{height:420px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div class="hero-copy">
+        <span class="eyebrow">🚗 Zomerreis 2026 · familieplanning</span>
+        <h1>Van Diksmuide naar Le Barcarès</h1>
+        <p>Een overzichtelijke reisplanner voor onderweg: rijden, slapen, kastelen, Vichy-water met rare smaakjes, een bergwandeling en dan richting zon, zwembad en Middellandse Zee.</p>
+        <div class="grid">
+          <div class="stat"><b>4</b> geplande dagen</div>
+          <div class="stat"><b>±1.245 km</b> hoofdroute</div>
+          <div class="stat"><b>3</b> logiespunten</div>
+          <div class="stat"><b>11 juli</b> Vlaamse feestdag</div>
+        </div>
+      </div>
+      <div class="hero-img"><div class="badge">Eerste stop: Chambord 🏰</div></div>
+    </div>
+  </header>
+  <nav class="nav"><div class="wrap"><a href="#planning">Planning</a><a href="#kaart">Kaart</a><a href="#vichy">Vichy-tips</a><a href="#logies">Logies</a><a href="#kids">Kids</a><a href="#checklist">Checklist</a></div></nav>
+  <main class="wrap">
+    <section id="planning" class="section">
+      <h2>Dagplanning</h2>
+      <div class="progress-panel" aria-live="polite">
+        <div class="progress-head">
+          <div>
+            <div class="progress-title" id="progressTitle">Reisvoortgang</div>
+            <div class="small" id="progressSubtitle">De reis start op 8 juli 2026.</div>
+          </div>
+          <span class="pill" id="progressBadge">Dag 0 van 4</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-days" id="progressDays"></div>
+      </div>
+      <div class="timeline">
+        <article class="day" data-day="1" data-date="2026-07-08" data-lat="47.586" data-lon="1.323" data-place="Blois">
+          <div class="date"><div><div class="month">woensdag</div><div class="big">8</div><div>juli 2026</div><span class="day-status">Gepland</span></div><strong>Startdag</strong></div>
+          <div class="day-content">
+            <div>
+              <h3>Diksmuide → Château de Chambord → Blois</h3>
+              <div class="route"><span class="pill">🚗 ±510 km tot Chambord</span><span class="pill">⏰ vertrek 06:00</span><span class="pill">🏰 bezoek kasteel</span><span class="pill">🚗 ±17 km naar hotel</span><span class="weather-pill loading" data-weather-pill>☀️ weer laden…</span></div>
+              <p>Vroege vogel-modus: vertrekken om 6u, kilometers vreten en daarna de torentjes-jungle van Chambord binnen. Na het bezoek nog een korte rit naar Blois.</p>
+              <div class="note"><strong>Slapen:</strong> Beelodge Hotel Blois, BEEHIVE - slaapbank. 1 nacht van woensdag 8 juli tot donderdag 9 juli. Bevestigingsnummer: <strong>52990</strong>. Ontbijt inbegrepen.</div>
+            </div>
+            <div class="photo"><img alt="Château de Chambord" src="https://commons.wikimedia.org/wiki/Special:FilePath/Chambord%20Castle%20Northwest%20facade.jpg"></div>
+          </div>
+        </article>
+        <article class="day" data-day="2" data-date="2026-07-09" data-lat="46.125" data-lon="3.426" data-place="Vichy">
+          <div class="date"><div><div class="month">donderdag</div><div class="big">9</div><div>juli 2026</div><span class="day-status">Gepland</span></div><strong>Vichy</strong></div>
+          <div class="day-content">
+            <div>
+              <h3>Blois → Clos 26, Bellerive-sur-Allier</h3>
+              <div class="route"><span class="pill">🚗 ±230 km</span><span class="pill">🏊 kamer met zwembad</span><span class="pill">🕒 check-in 15:00-18:00</span><span class="pill">🥐 ontbijt inbegrepen</span><span class="weather-pill loading" data-weather-pill>☀️ weer laden…</span></div>
+              <p>Aankomen, installeren en dan Vichy verkennen. Bellerive-sur-Allier ligt vlak bij Vichy, dus ideaal voor een rustige avondwandeling of iets eten in de stad.</p>
+              <div class="cards">
+                <div class="mini"><h4>Adres</h4><p>Clos 26<br>26 Chemin des Barges<br>03700 Bellerive-sur-Allier, Frankrijk</p></div>
+                <div class="mini"><h4>Boeking</h4><p>2 volwassenen, 2 kinderen van 11 en 13 jaar. 2 nachten. Spreek een aankomsttijd af met de host.</p></div>
+              </div>
+            </div>
+            <div class="photo"><img alt="Vichy Hall des Sources" src="https://commons.wikimedia.org/wiki/Special:FilePath/Vichy%20-%20Hall%20des%20Sources.jpg"></div>
+          </div>
+        </article>
+        <article class="day" data-day="3" data-date="2026-07-10" data-lat="45.617" data-lon="2.849" data-place="Col de la Croix-Morand">
+          <div class="date"><div><div class="month">vrijdag</div><div class="big">10</div><div>juli 2026</div><span class="day-status">Gepland</span></div><strong>Bergdag</strong></div>
+          <div class="day-content">
+            <div>
+              <h3>Wandelen aan Col de la Croix-Morand</h3>
+              <div class="route"><span class="pill">🚗 ±95 km enkel</span><span class="pill">⛰️ col op ±1.401 m</span><span class="pill">🥾 wandelen</span><span class="pill">🍽️ eten in Vichy/regio</span><span class="weather-pill loading" data-weather-pill>☀️ weer laden…</span></div>
+              <p>Een frisse bergdag in de Auvergne. Wandeling doen aan de Col de la Croix-Morand en daarna terug richting Vichy of de regio om iets te eten.</p>
+              <div class="note">Tip: neem laagjes mee. Bergweer kan een eigen dramatische soundtrack hebben.</div>
+            </div>
+            <div class="photo"><img alt="Col de la Croix Morand" src="https://commons.wikimedia.org/wiki/Special:FilePath/Col%20de%20la%20Croix-Morand.jpg"></div>
+          </div>
+        </article>
+        <article class="day" data-day="4" data-date="2026-07-11" data-lat="42.811" data-lon="3.026" data-place="Le Barcarès">
+          <div class="date"><div><div class="month">zaterdag</div><div class="big">11</div><div>juli 2026</div><span class="day-status">Gepland</span></div><strong>Vlaamse feestdag</strong></div>
+          <div class="day-content">
+            <div>
+              <h3>Bellerive-sur-Allier → Camping Les Tamaris, Le Barcarès</h3>
+              <div class="route"><span class="pill">🚗 ±486 km</span><span class="pill">🏖️ naar de zee</span><span class="pill">💦 camping met waterpret</span><span class="pill">📍 Route de Saint-Laurent</span><span class="weather-pill loading" data-weather-pill>☀️ weer laden…</span></div>
+              <p>Lange zuidelijke rit naar Le Barcarès. Eindbestemming: Camping Les Tamaris, op naar zwembad, strand en vakantiehoofd aan.</p>
+              <div class="note">Adres: Camping Les Tamaris, Route de Saint-Laurent, 66420 Le Barcarès, Frankrijk.</div>
+            </div>
+            <div class="photo"><img alt="Le Barcarès strand" src="https://commons.wikimedia.org/wiki/Special:FilePath/Le%20Barcar%C3%A8s%20plage.jpg"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="kaart" class="section">
+      <h2>Overzichtskaart</h2>
+      <div class="mapbox"><div id="map"></div><div class="legend"><span>🏠 logies</span><span>🏰 bezoek</span><span>⛰️ wandeling</span><span>🏖️ eindbestemming</span><span>🟢 bezocht</span><span>🟡 vandaag</span></div><div class="map-note">De kaart kleurt automatisch mee op basis van de datum. Open je dit tijdens de reis, dan zie je wat al achter de kiezen is.</div></div>
+    </section>
+    <section id="vichy" class="section">
+      <h2>Vichy-tips</h2>
+      <div class="tips">
+        <div class="tip"><div class="emoji">🌳</div><h3>Parc des Sources</h3><p>Bekend park met schaduwrijke lanen, speeltuintjes, fonteinen en veel ruimte om even rond te dwalen. Ideaal ijsjesgebied.</p></div>
+        <div class="tip"><div class="emoji">💧</div><h3>Hall des Sources</h3><p>Verschillende natuurlijke mineraalwaters proeven. De smaken zijn apart, dus ideaal voor een klein familieproefpanel.</p></div>
+        <div class="tip"><div class="emoji">🏖️</div><h3>Vichy Plage</h3><p>Zomerplek langs de Allier met strandgevoel, waterpret, speeltuinen en activiteiten zoals kajak, SUP of waterfiets.</p></div>
+        <div class="tip"><div class="emoji">🚲</div><h3>Langs de Allier</h3><p>Promenade om te wandelen of fietsen. Ook goed voor eenden spotten, terrassen en een rustige avondronde.</p></div>
+      </div>
+    </section>
+    <section id="logies" class="section">
+      <h2>Logies</h2>
+      <div class="sleep">
+        <div class="sleep-card"><h3>Beelodge Hotel Blois</h3><p><strong>Wanneer:</strong> 8 → 9 juli 2026<br><strong>Kamer:</strong> BEEHIVE - slaapbank<br><strong>Bevestiging:</strong> 52990<br><strong>Extra:</strong> ontbijt inbegrepen</p></div>
+        <div class="sleep-card"><h3>Clos 26</h3><p><strong>Wanneer:</strong> 9 → 11 juli 2026<br><strong>Adres:</strong> 26 Chemin des Barges, 03700 Bellerive-sur-Allier<br><strong>Check-in:</strong> 15:00-18:00<br><strong>Check-out:</strong> 08:00-11:00<br><strong>Extra:</strong> zwembad + ontbijt</p></div>
+        <div class="sleep-card"><h3>Camping Les Tamaris</h3><p><strong>Vanaf:</strong> 11 juli 2026<br><strong>Adres:</strong> Route de Saint-Laurent, 66420 Le Barcarès<br><strong>Extra:</strong> camping aan de zuidzon, nabij strand en waterpret.</p></div>
+      </div>
+    </section>
+
+    <section id="kids" class="section">
+      <h2>Zelf aanvullen onderweg</h2>
+      <p><span class="save-hint">💾 Wordt automatisch bewaard op dit toestel</span></p>
+      <div class="kids-board">
+        <div class="kid-card"><h3>8 juli</h3><div class="field"><label>Wat was het leukste?</label><textarea data-save="kids-8-leukste" placeholder="Kasteel, picknick, hotel, iets grappigs..."></textarea></div><div class="field"><label>Score van de dag</label><div class="stars" data-stars="kids-8-score"></div></div></div>
+        <div class="kid-card"><h3>9 juli</h3><div class="field"><label>Wat willen we onthouden?</label><textarea data-save="kids-9-onthouden" placeholder="Rare watersmaakjes, zwembad, ijsje..."></textarea></div><div class="field"><label>Score van de dag</label><div class="stars" data-stars="kids-9-score"></div></div></div>
+        <div class="kid-card"><h3>10 juli</h3><div class="field"><label>Beste moment van de wandeling</label><textarea data-save="kids-10-wandeling" placeholder="Uitzicht, dieren, eten, heldendaad..."></textarea></div><div class="field"><label>Score van de dag</label><div class="stars" data-stars="kids-10-score"></div></div></div>
+        <div class="kid-card"><h3>11 juli</h3><div class="field"><label>Eerste indruk van de camping</label><textarea data-save="kids-11-camping" placeholder="Zwembad? Strand? Bed? Honger?"></textarea></div><div class="field"><label>Score van de dag</label><div class="stars" data-stars="kids-11-score"></div></div></div>
+      </div>
+      <div class="input-grid">
+        <div class="field"><label>Snacks die we nog moeten kopen</label><textarea data-save="snacks" placeholder="Water, koeken, fruit, chips, kauwgom..."></textarea></div>
+        <div class="field"><label>Losse ideeën bij slecht weer</label><textarea data-save="regen-ideeen" placeholder="Museum, marktje, cinema, zwemmen, spelletjes..."></textarea></div>
+        <div class="field"><label>Belangrijke codes / info</label><textarea data-save="codes-info" placeholder="Niet té gevoelige info. Geen bankcodes of paswoorden."></textarea></div>
+        <div class="field"><label>Vakantiegrappen & quotes</label><textarea data-save="quotes" placeholder="De legendarische uitspraken komen hier..."></textarea></div>
+      </div>
+      <div class="button-row"><button class="btn" id="exportNotes">Notities exporteren</button><button class="btn secondary" id="clearNotes">Invulvelden leegmaken</button></div>
+    </section>
+    <section id="checklist" class="section">
+      <h2></h2>
+      <div class="todo">
+        <div class="box"><h3>Praktisch</h3><ul><li>Exacte aankomsttijd afspreken met host Clos 26.</li><li>Tickets of reservatie Chambord toevoegen.</li><li>Check-in info Camping Les Tamaris toevoegen.</li><li>Parkings toevoegen per bestemming.</li></ul></div>
+        <div class="box"><h3>Voor de kinderen</h3><ul><li>Iedere dag één “topding” aanduiden.</li><li>Zwembad- en strandspullen apart zetten.</li><li>Offline kaart downloaden.</li><li>Reissnacks. Veel. De auto is geen democratie zonder chips.</li></ul></div>
+      </div>
+      <div class="box" style="margin-top:18px"><h3>Afvinklijst voor vertrek</h3>
+        <label class="checkline"><input type="checkbox" data-save-check="check-tickets"> Tickets / reservaties opgeslagen</label>
+        <label class="checkline"><input type="checkbox" data-save-check="check-offline"> Offline kaarten gedownload</label>
+        <label class="checkline"><input type="checkbox" data-save-check="check-laders"> Laders en powerbanks mee</label>
+        <label class="checkline"><input type="checkbox" data-save-check="check-zwem"> Zwemgerief apart klaar</label>
+        <label class="checkline"><input type="checkbox" data-save-check="check-snacks"> Auto-snacks ingeladen</label>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><p class="small">Afstanden zijn praktische richtwaarden op basis van online route-informatie en kunnen wijzigen door routekeuze, werken en verkeer. Foto’s worden online geladen via Wikimedia Commons. Kaart via OpenStreetMap/Leaflet.</p></footer>
+  <script>
+    const map = L.map('map', {scrollWheelZoom:false}).setView([47.2, 2.7], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap' }).addTo(map);
+    const tripDays = [
+      {day:1, date:'2026-07-08', title:'Diksmuide → Chambord → Blois'},
+      {day:2, date:'2026-07-09', title:'Blois → Vichy/Bellerive'},
+      {day:3, date:'2026-07-10', title:'Col de la Croix-Morand'},
+      {day:4, date:'2026-07-11', title:'Bellerive → Le Barcarès'}
+    ];
+
+    function todayISO(){
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+    function currentTripDay(){
+      const today = todayISO();
+      if(today < tripDays[0].date) return 0;
+      const last = tripDays[tripDays.length-1].date;
+      if(today > last) return tripDays.length;
+      const match = tripDays.find(d=>d.date===today);
+      return match ? match.day : tripDays.filter(d=>d.date<today).length;
+    }
+    const currentDay = currentTripDay();
+    const progressPct = Math.round((currentDay / tripDays.length) * 100);
+    document.getElementById('progressFill').style.width = progressPct + '%';
+    document.getElementById('progressBadge').textContent = `Dag ${currentDay} van ${tripDays.length}`;
+    document.getElementById('progressSubtitle').textContent = currentDay === 0 ? 'De reis start op 8 juli 2026.' : (currentDay >= tripDays.length ? 'Aangekomen aan de zuidzon. Route compleet.' : `Vandaag: ${tripDays[currentDay-1].title}`);
+    const progressDays = document.getElementById('progressDays');
+    tripDays.forEach(d=>{
+      const div=document.createElement('div');
+      div.className='progress-day' + (d.day < currentDay ? ' done' : d.day === currentDay ? ' today' : '');
+      div.innerHTML=`<div>Dag ${d.day}</div><div class="small">${d.title}</div>`;
+      progressDays.appendChild(div);
+    });
+    document.querySelectorAll('.day').forEach(card=>{
+      const d = Number(card.dataset.day);
+      const status = card.querySelector('.day-status');
+      if(!status) return;
+      if(d < currentDay){ status.textContent='✓ Bezocht'; card.classList.add('visited'); }
+      else if(d === currentDay){ status.textContent='Vandaag'; card.classList.add('today'); }
+      else { status.textContent='Gepland'; }
+    });
+
+    const points = [
+      {name:'Diksmuide', icon:'🚗', pos:[51.033,2.863], text:'Vertrek om 06:00', day:0},
+      {name:'Château de Chambord', icon:'🏰', pos:[47.664723,1.523442], text:'Bezoek kasteel Chambord', day:1},
+      {name:'Beelodge Hotel Blois', icon:'🏠', pos:[47.586,1.323], text:'1 nacht, ontbijt inbegrepen', day:1},
+      {name:'Clos 26, Bellerive-sur-Allier', icon:'🏠', pos:[46.119,3.414], text:'2 nachten, kamer met zwembad', day:2},
+      {name:'Vichy', icon:'💧', pos:[46.125,3.426], text:'Parc des Sources, Hall des Sources, Vichy Plage', day:2},
+      {name:'Col de la Croix-Morand', icon:'⛰️', pos:[45.617,2.849], text:'Wandeling op vrijdag 10 juli', day:3},
+      {name:'Camping Les Tamaris, Le Barcarès', icon:'🏖️', pos:[42.811,3.026], text:'Aankomst zaterdag 11 juli', day:4}
+    ];
+    const group = L.featureGroup().addTo(map);
+    function markerClass(day){ return day < currentDay ? 'visited' : day === currentDay ? 'active' : ''; }
+    points.forEach(p=>{
+      const marker = L.marker(p.pos, {
+        title:p.name,
+        icon:L.divIcon({className:'route-marker', html:`<div class="marker-dot ${markerClass(p.day)}">${p.icon}</div>`, iconSize:[34,34], iconAnchor:[17,17]})
+      }).addTo(group);
+      marker.bindPopup(`<strong>${p.icon} ${p.name}</strong><br>${p.text}<br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name)}">Open in Google Maps</a>`);
+    });
+    for(let i=0;i<points.length-1;i++){
+      const done = points[i+1].day <= currentDay;
+      L.polyline([points[i].pos, points[i+1].pos], {weight:5, opacity:.72, color: done ? '#3f8d4a' : '#263238', dashArray: done ? null : '8 10'}).addTo(map);
+    }
+    map.fitBounds(group.getBounds().pad(.18));
+
+    const weatherCodes = {0:'☀️ helder',1:'🌤️ licht bewolkt',2:'⛅ half bewolkt',3:'☁️ bewolkt',45:'🌫️ mist',48:'🌫️ mist',51:'🌦️ motregen',53:'🌦️ motregen',55:'🌦️ motregen',61:'🌧️ regen',63:'🌧️ regen',65:'🌧️ stevige regen',71:'🌨️ sneeuw',80:'🌦️ buien',81:'🌧️ buien',82:'⛈️ stevige buien',95:'⛈️ onweer'};
+    document.querySelectorAll('.day[data-lat][data-lon]').forEach(card=>{
+      const pill = card.querySelector('[data-weather-pill]');
+      if(!pill || !navigator.onLine){ if(pill) pill.textContent='☀️ weer offline'; return; }
+      const {lat, lon, date, place} = card.dataset;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe%2FParis&start_date=${date}&end_date=${date}`;
+      fetch(url).then(r=>r.json()).then(data=>{
+        const code = data.daily?.weather_code?.[0];
+        const tmax = Math.round(data.daily?.temperature_2m_max?.[0]);
+        const label = weatherCodes[code] || '☀️ weer';
+        pill.textContent = `${label} · ${Number.isFinite(tmax) ? tmax + '°C' : place}`;
+        pill.classList.remove('loading');
+      }).catch(()=>{ pill.textContent='☀️ weer niet geladen'; });
+    });
+
+    // Invulvelden bewaren per toestel/browser
+    const storagePrefix = 'reis2026-';
+    document.querySelectorAll('[data-save]').forEach(el=>{
+      const key = storagePrefix + el.dataset.save;
+      el.value = localStorage.getItem(key) || '';
+      el.addEventListener('input',()=>localStorage.setItem(key, el.value));
+    });
+    document.querySelectorAll('[data-save-check]').forEach(el=>{
+      const key = storagePrefix + el.dataset.saveCheck;
+      el.checked = localStorage.getItem(key) === 'true';
+      el.addEventListener('change',()=>localStorage.setItem(key, el.checked));
+    });
+    document.querySelectorAll('[data-stars]').forEach(box=>{
+      const key = storagePrefix + box.dataset.stars;
+      const saved = Number(localStorage.getItem(key) || 0);
+      for(let i=1;i<=5;i++){
+        const b=document.createElement('button'); b.type='button'; b.textContent='★'; b.title=i+'/5';
+        if(i<=saved) b.classList.add('active');
+        b.addEventListener('click',()=>{localStorage.setItem(key, i); [...box.children].forEach((c,idx)=>c.classList.toggle('active', idx<i));});
+        box.appendChild(b);
+      }
+    });
+    document.getElementById('exportNotes')?.addEventListener('click',()=>{
+      const lines=['Reisnotities zomer 2026','======================',''];
+      document.querySelectorAll('[data-save]').forEach(el=>{
+        const label=el.closest('.field')?.querySelector('label')?.textContent || el.dataset.save;
+        if(el.value.trim()) lines.push(label + ':\n' + el.value.trim() + '\n');
+      });
+      document.querySelectorAll('[data-stars]').forEach(box=>{
+        const key=storagePrefix + box.dataset.stars;
+        const val=localStorage.getItem(key);
+        if(val) lines.push(box.dataset.stars.replaceAll('-',' ') + ': ' + val + '/5');
+      });
+      const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='reisnotities-zomer-2026.txt'; a.click(); URL.revokeObjectURL(a.href);
+    });
+    document.getElementById('clearNotes')?.addEventListener('click',()=>{
+      if(!confirm('Alle invulvelden op dit toestel leegmaken?')) return;
+      Object.keys(localStorage).filter(k=>k.startsWith(storagePrefix)).forEach(k=>localStorage.removeItem(k));
+      location.reload();
+    });
+
+  </script>
+</body>
+</html>
